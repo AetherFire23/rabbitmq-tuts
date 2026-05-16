@@ -2,6 +2,9 @@
 using System.Text;
 
 /*
+ * Essentially the same as the routing scenario but with Regex-like for topics so subscribers can subscribe to
+ * ranges of events, rather that always-individual queues. 
+ * 
  * Sets of working program launch settings:
  *
  * Consumer : dotnet run anonymous.info
