@@ -23,7 +23,10 @@ using var channel = await connection.CreateChannelAsync();
  * Create a new exchange. of type TOPIC
  */
 await channel.ExchangeDeclareAsync(exchange: "topic_logs", type: ExchangeType.Topic);
-
+/*
+ * Also will declare a new custom queue !
+ * amq.gen-jQ4Mfi43eohxLdqwSaP5Jw
+ */
 QueueDeclareOk queueDeclareResult = await channel.QueueDeclareAsync();
 string queueName = queueDeclareResult.QueueName;
 
