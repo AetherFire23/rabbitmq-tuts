@@ -1,4 +1,7 @@
-﻿public class Program
+﻿using System.Text;
+using RabbitMQ.Client;
+
+public class Program
 {
     public static async Task Main(string[] args)
     {
