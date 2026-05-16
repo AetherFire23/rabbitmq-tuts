@@ -5,18 +5,21 @@ public class Program
 {
     public static async Task Main(string[] args)
     {
+        /*
+         * Runs 
+         *  docker run -d --hostname my-rabbit --name some-rabbit rabbitmq:3-management
+        */
         var factory = new ConnectionFactory { HostName = "localhost" };
         using var connection = await factory.CreateConnectionAsync();
         using var channel = await connection.CreateChannelAsync();
 
-        await channel.QueueDeclareAsync(queue: "hello", durable: true, exclusive: false, autoDelete: false,
-            arguments: new Dictionary<string, object?> { { "x-queue-type", "quorum" } });
+        await channel.ExchangeDeclareAsync(exchange: "logs", type: ExchangeType.Fanout);
 
-        var message = GetMessage(["22", "44", "55"]);
-        
+        var message = GetMessage(args);
         var body = Encoding.UTF8.GetBytes(message);
-
-        await channel.BasicPublishAsync(exchange: string.Empty, routingKey: "hello", body: body);
+        
+        // Note that the routing key is empty. 
+        await channel.BasicPublishAsync(exchange: "logs", routingKey: string.Empty, body: body);
         Console.WriteLine($" [x] Sent {message}");
 
         Console.WriteLine(" Press [enter] to exit.");
